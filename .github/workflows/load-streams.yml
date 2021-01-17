@@ -1,0 +1,76 @@
+# This is a basic workflow that is manually triggered
+
+name: Load Streams
+
+on:
+  workflow_dispatch:
+    inputs:
+      sleeptime:
+        description: 'Length of time spent sleeping in seconds'
+        default: 30
+        required: false
+
+jobs:
+  load-streams:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        machine: ["0", "1", "2", "3", "4", "5", "6"]
+        # machine: ["0", "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"]
+      fail-fast: false
+    env:
+      DISPLAY: ":0"
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '12'
+    - name: Setup xvfb (Linux)
+      run: |
+        sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 alsa-utils mpv jq
+        sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
+    - name: Get Chrome
+      run: |
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo dpkg -i ./google-chrome-stable_current_amd64.deb
+        google-chrome --version
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    # - uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '12'
+    # - name: npm install
+    #   run: |
+    #     npm install
+    - name: Update youtube-dl
+      run: |
+        # sudo youtube-dl -U
+        sudo apt remove -y youtube-dl
+        sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl || sleep 10 && sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl
+        sudo chmod a+x /usr/bin/youtube-dl
+        youtube-dl --version
+    - name: Install python dependencies
+      run: |
+        python3 -m pip install -r requirements.txt
+        export ACTUAL_PYTHON=$(which python3)
+        echo $ACTUAL_PYTHON
+        echo $(which python3)
+    # - name: Clone Julius
+    #   run: |
+    #     git clone https://github.com/julius-speech/dictation-kit
+    - name: Set up PulseAudio and run script
+      run: |
+        chmod +x ./scripts/*.sh
+        sudo sh ./scripts/initpulse.sh $(whoami) ${{ matrix.machine }} $USER $(which python3)
+    - name: After running
+      run: |
+        # node runner/index.js ${{ matrix.machine }}
+        # sudo sh ./scripts/run-runner.sh ${{ matrix.machine }}
+        echo Skip sleeping for ${{ github.event.inputs.sleeptime }} seconds
+        echo Machine ${{ matrix.machine }} finished
+    - uses: actions/upload-artifact@v2
+      with:
+        name: output.wav
+        path: output.wav
