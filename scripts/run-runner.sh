@@ -36,6 +36,11 @@ function mplay() {
 # cd dictation-kit
 echo Printing release
 youtube-dl --version
+
+pushd ..
+git clone https://github.com/Botrans/baquap
+popd
+
 # live="https://www.youtube.com/watch?v="$(curl -s https://jetrico.sfo2.digitaloceanspaces.com/hololive/youtube.json | jq .live[$1].yt_video_key | sed 's/"//g')
 
 # live="https://www.youtube.com/watch?v=fxhrQCIeSOQ"
