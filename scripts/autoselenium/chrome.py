@@ -4,10 +4,9 @@ import subprocess as sb
 import sys
 from pathlib import Path
 
+import autoselenium.setup_utils as su
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-import autoselenium.setup_utils as su
 
 pwd = Path(".") / "drivers"
 platform = su.platform
@@ -66,12 +65,15 @@ def setup_driver() -> None:
 def __get_options(display: bool) -> Options:
     options = Options()
 
-    options.add_experimental_option("prefs", {
-        "profile.default_content_setting_values.media_stream_mic": 1,
-        "profile.default_content_setting_values.media_stream_camera": 1,
-        "profile.default_content_setting_values.geolocation": 1,
-        "profile.default_content_setting_values.notifications": 1
-    })
+    options.add_experimental_option(
+        "prefs",
+        {
+            "profile.default_content_setting_values.media_stream_mic": 1,
+            "profile.default_content_setting_values.media_stream_camera": 1,
+            "profile.default_content_setting_values.geolocation": 1,
+            "profile.default_content_setting_values.notifications": 1,
+        },
+    )
     if enable_headless:
         # options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")

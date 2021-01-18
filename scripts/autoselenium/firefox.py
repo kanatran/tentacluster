@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from selenium import webdriver
-
 import autoselenium.setup_utils as su
+from selenium import webdriver
 
 pwd = Path(".") / "drivers"
 

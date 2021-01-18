@@ -1,17 +1,16 @@
 import asyncio
 import os
-from pprint import pprint
 from pathlib import Path
+from pprint import pprint
 from threading import Thread
 from typing import Optional
 
 import translators as ts
+from autoselenium import chrome
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
-from autoselenium import chrome
 from models import TranscriptEvent
-from transcribe import *
+from transcribe import aio_write_transcripts
 
 static = Path(__file__).resolve().parent / "../web"
 
@@ -44,8 +43,8 @@ async def transcript_event(transcript: TranscriptEvent):
     print("Got transcript:", transcript.text)
     print("At time:", transcript.timestamp)
     print("Browser translation:", transcript.translation)
-    loop = asyncio.get_event_loop()
-    write_transcripts(
+    # loop = asyncio.get_event_loop()
+    await aio_write_transcripts(
         "testvideoid",
         transcript.text,
         transcript.translation,

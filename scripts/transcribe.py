@@ -1,8 +1,16 @@
+import asyncio
 import os
 import subprocess
 from pathlib import Path
 
 static = Path(__file__).resolve().parent
+
+
+async def aio_write_transcripts(video, transcript, translation, srtTimes, index):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(
+        None, lambda: write_transcripts(video, transcript, translation, srtTimes, index)
+    )
 
 
 def write_transcripts(video, transcript, translation, srtTimes, index):
@@ -33,7 +41,6 @@ def write_transcripts(video, transcript, translation, srtTimes, index):
         f"{static}/../../baquap/tl_transcript.srt",
         f"{static}/../../baquap/last_tl.txt",
     ]
-
 
     with open(paths[0], "a+") as f:
         f.write(texts[0])
