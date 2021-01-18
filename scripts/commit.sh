@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo Committing to $1
-pushd ../../../baquap
+cd /../baquap
+pwd
 git add .
 git commit --amend -m "Updated transcripts"
 git commit -m "Created transcripts"
