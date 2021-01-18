@@ -19,20 +19,20 @@ def write_transcripts(video, transcript, translation, srtTimes, index):
     time = f"{srtTimes[0]} --> {srtTimes[1]}"
 
     texts = [
-        f"""
-{index}
+        f"""{index}
 {time}
 {transcript}
+
 """,
-        f"""
-{index}
+        f"""{index}
 {time}
 {translation}
+
 """,
-        f"""
-{time}
+        f"""{time}
 {transcript}
 {translation}
+
 """,
     ]
 
