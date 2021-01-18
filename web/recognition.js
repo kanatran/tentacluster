@@ -59,7 +59,6 @@ const send = async (text, translation) => {
   const current = new Date().getTime()
   const time = current - begin
   const srtTime = [lastSrt, srtTimestamp(time)]
-  console.log(srtTime)
   const res = await fetch('/transcript', {
     method: 'POST',
     headers: {
