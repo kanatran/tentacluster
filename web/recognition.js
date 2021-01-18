@@ -1,4 +1,18 @@
 /* eslint-disable no-new */
+
+const THRESHOLD = 0.75
+
+// const commonMistakes = {
+//   '屋号': 'Yagoo'
+// };
+
+const fixMistakes = (text) => {
+  // for (const item in text) {
+  //   text.replaceAll(item, commonMistakes[item])
+  // }
+  return text
+}
+
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
 
 const translate = text => {
@@ -77,14 +91,34 @@ const send = async (text, translation) => {
   return res
 }
 
+let runningText = {
+  text: '',
+  translation: '',
+  num: 0
+}
+
+setInterval(async () => {
+  if (runningText.num == 0) return
+  await send(runningText.text, runningText.translation)
+  console.log(`%c${runningText.translation}`, 'font-size: x-large')
+  runningText = {
+    text: '',
+    translation: '',
+    num: 0
+  }
+}, 15000)
+
 recognition.onresult = async (event) => {
   const result = event.results[event.results.length - 1]
-  const resultText = Array.from(result).map(d => d.transcript).join('\n')
+  const resultText = fixMistakes(Array.from(result).map(d => d.transcript).join('\n'))
   console.debug(resultText)
-  if (result.isFinal) {
-    const resultTrans = await translate(resultText)
-    console.log(`%c ${resultTrans}`, 'font-size: x-large')
-    await send(resultText, resultTrans)
+  if (result.isFinal && result[0].confidence >= THRESHOLD) {
+    const resultTrans = await translate(resultText + '。')
+    runningText.text += resultText
+    runningText.translation += resultTrans.replaceAll('。', '.') + ' '
+    runningText.num++
+  } else {
+    console.debug(`Confidence too low (${resultText} --> ${resultTrans} = ${(100 * confidence).toFixed(3)})`)
   }
 }
 
