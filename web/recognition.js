@@ -51,14 +51,15 @@ recognition.onstart = () => {
   console.debug('Recognition started')
 }
 
-let lasttime = new Date().getTime()
+let begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
 let index = 1
 
 const send = async (text, translation) => {
   const current = new Date().getTime()
-  const time = current - lasttime
+  const time = current - begin
   const srtTime = [lastSrt, srtTimestamp(time)]
+  console.log(srtTime)
   const res = await fetch('/transcript', {
     method: 'POST',
     headers: {
@@ -73,7 +74,6 @@ const send = async (text, translation) => {
       index: index++
     })
   })
-  lasttime = current
   lastSrt = srtTime[1]
   return res
 }
