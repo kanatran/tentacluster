@@ -29,12 +29,11 @@ googleTranslateElementInit = () => {
   }, 1000)
 }
 
-const srtTimestamp = seconds => {
-  let milliseconds = seconds * 1000
-
-  seconds = Math.floor(milliseconds / 1000)
+const srtTimestamp = milliseconds => {
+  let seconds = Math.round(milliseconds / 1000)
+  // let milliseconds = seconds * 1000
   let minutes = Math.floor(seconds / 60)
-  const hours = Math.floor(minutes / 60)
+  let hours = Math.floor(minutes / 60)
   milliseconds = milliseconds % 1000
   seconds = seconds % 60
   minutes = minutes % 60
@@ -53,11 +52,13 @@ recognition.onstart = () => {
 }
 
 let lasttime = new Date().getTime()
+let lastSrt = srtTimestamp(0)
 let index = 1
 
 const send = async (text, translation) => {
-  const time = new Date().getTime() - lasttime
-  const srtTime = [srtTimestamp(lasttime), srtTimestamp(time)]
+  const current = new Date().getTime()
+  const time = current - lasttime
+  const srtTime = [lastSrt, srtTimestamp(time)]
   const res = await fetch('/transcript', {
     method: 'POST',
     headers: {
@@ -72,7 +73,8 @@ const send = async (text, translation) => {
       index: index++
     })
   })
-  lasttime = time
+  lasttime = current
+  lastSrt = srtTime[1]
   return res
 }
 
