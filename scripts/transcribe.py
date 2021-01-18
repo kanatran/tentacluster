@@ -6,7 +6,7 @@ static = Path(__file__).resolve().parent
 
 
 def write_transcripts(video, transcript, translation, srtTimes, index):
-    subprocess.call(["sh", f"{static}/checkout.sh", f"{video}"])
+    subprocess.call(["sh", f"{static}/checkout.sh", video])
 
     time = f"{srtTimes[0]} --> {srtTimes[1]}"
 
@@ -44,4 +44,4 @@ def write_transcripts(video, transcript, translation, srtTimes, index):
     with open(paths[2], "w+") as f:
         f.write(texts[2])
 
-    subprocess.call(["sh", f"{static}/commit.sh"])
+    subprocess.call(["sh", f"{static}/commit.sh", video])

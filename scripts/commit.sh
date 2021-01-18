@@ -6,6 +6,6 @@ pwd
 git add .
 git commit --amend -m "Updated transcripts"
 git commit -m "Created transcripts"
-git push --set-upstream origin testvideo -f
+git push --set-upstream origin $1 -f
 
 exit 0
