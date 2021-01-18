@@ -1,7 +1,8 @@
 #!/bin/bash
 
 echo Checking out to $1
-pushd ../../../baquap
+cd ../baquap
+pwd
 git checkout -b $1
 git checkout $1
 
