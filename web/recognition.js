@@ -83,7 +83,7 @@ recognition.onresult = async (event) => {
   console.debug(resultText)
   if (result.isFinal) {
     const resultTrans = await translate(resultText)
-    console.log('%c {resultTrans}', 'font-size: x-large')
+    console.log(`%c ${resultTrans}`, 'font-size: x-large')
     await send(resultText, resultTrans)
   }
 }
