@@ -119,8 +119,8 @@ setInterval(() => {
   if (runningText.num === 0) return
   translate(runningText.text).then(async translation => {
     translation = translation.replaceAll('。', '.')
-    await send(runningText.text, translation)
     console.log(`%c${translation}`, 'font-size: x-large')
+    await send(runningText.text, translation)
   })
   runningText = {
     text: '',
