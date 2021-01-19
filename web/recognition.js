@@ -13,6 +13,8 @@ const fixMistakes = (text) => {
   return text
 }
 
+const isPrintableASCII = string => /^[\x20-\x7F]*$/.test(string)
+
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
 
 const translate = text => {
@@ -21,7 +23,8 @@ const translate = text => {
     e.textContent = text
     let i = 0
     const callback = () => {
-      if (i++ === 4) resolve(e.textContent)
+      const content = e.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
+      if (isPrintableASCII(content)) resolve(content)
     }
     document.body.appendChild(e)
     e.addEventListener('DOMSubtreeModified', callback)
@@ -93,17 +96,16 @@ const send = async (text, translation) => {
 
 let runningText = {
   text: '',
-  translation: '',
   num: 0
 }
 
 setInterval(async () => {
   if (runningText.num == 0) return
-  await send(runningText.text, runningText.translation)
-  console.log(`%c${runningText.translation}`, 'font-size: x-large')
+  const translation = (await translate(runningText.text)).replaceAll('。', '.')
+  await send(runningText.text, translation)
+  console.log(`%c${translation}`, 'font-size: x-large')
   runningText = {
     text: '',
-    translation: '',
     num: 0
   }
 }, 15000)
@@ -113,9 +115,7 @@ recognition.onresult = async (event) => {
   const resultText = fixMistakes(Array.from(result).map(d => d.transcript).join('\n'))
   console.debug(resultText)
   if (result.isFinal && result[0].confidence >= THRESHOLD) {
-    const resultTrans = await translate(resultText + '。')
-    runningText.text += resultText
-    runningText.translation += resultTrans.replaceAll('。', '.') + ' '
+    runningText.text += resultText + '。'
     runningText.num++
   } else {
     console.debug(`Confidence too low (${resultText} --> ${resultTrans} = ${(100 * confidence).toFixed(3)})`)
