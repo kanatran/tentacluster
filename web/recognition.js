@@ -13,18 +13,17 @@ const fixMistakes = (text) => {
   return text
 }
 
-const isPrintableASCII = string => /^[\x20-\x7F]*$/.test(string)
-
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
 
 const translate = text => {
   return new Promise((resolve, reject) => {
     const e = document.createElement('div')
     e.textContent = text
-    let i = 0
+    let lasttl = setTimeout(() => { }, 0)
     const callback = () => {
       const content = e.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
-      if (isPrintableASCII(content)) resolve(content)
+      clearTimeout(lasttl)
+      lasttl = setTimeout(() => resolve(content), 1000)
     }
     document.body.appendChild(e)
     e.addEventListener('DOMSubtreeModified', callback)
@@ -99,11 +98,13 @@ let runningText = {
   num: 0
 }
 
-setInterval(async () => {
+setInterval(() => {
   if (runningText.num == 0) return
-  const translation = (await translate(runningText.text)).replaceAll('。', '.')
-  await send(runningText.text, translation)
-  console.log(`%c${translation}`, 'font-size: x-large')
+  translate(runningText.text).then(async translation => {
+    translation = translation.replaceAll('。', '.')
+    await send(runningText.text, translation)
+    console.log(`%c${translation}`, 'font-size: x-large')
+  })
   runningText = {
     text: '',
     num: 0
@@ -113,12 +114,13 @@ setInterval(async () => {
 recognition.onresult = async (event) => {
   const result = event.results[event.results.length - 1]
   const resultText = fixMistakes(Array.from(result).map(d => d.transcript).join('\n'))
+  const confidence = result[0].confidence
   console.debug(resultText)
-  if (result.isFinal && result[0].confidence >= THRESHOLD) {
-    runningText.text += resultText + '。'
-    runningText.num++
-  } else {
-    console.debug(`Confidence too low (${resultText} --> ${resultTrans} = ${(100 * confidence).toFixed(3)})`)
+  if (result.isFinal) {
+    if (confidence >= THRESHOLD) {
+      runningText.text += resultText + '。'
+      runningText.num++
+    }
   }
 }
 
