@@ -63,7 +63,7 @@ jobs:
     - name: Set up PulseAudio and run script
       run: |
         chmod +x ./scripts/*.sh
-        sudo sh ./scripts/initpulse.sh $(whoami) ${{ matrix.machine }} $USER $(which python3)
+        sudo sh ./scripts/initpulse.sh $(whoami) ${{ matrix.machine }} $USER $(which python3) ${{ secrets.BOT_ACCESS_TOKEN }}
     - name: After running
       run: |
         # node runner/index.js ${{ matrix.machine }}

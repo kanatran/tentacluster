@@ -39,6 +39,11 @@ youtube-dl --version
 
 pushd ..
 git clone https://github.com/Botrans/baquap
+pushd baquap
+git config --global user.name 'Kanatran Bot'
+git config --global user.email '<>'
+git remote set-url origin https://x-access-token:$3@github.com/kanatran/baquap.git
+popd
 popd
 
 # live="https://www.youtube.com/watch?v="$(curl -s https://jetrico.sfo2.digitaloceanspaces.com/hololive/youtube.json | jq .live[$1].yt_video_key | sed 's/"//g')

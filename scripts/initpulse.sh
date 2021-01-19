@@ -23,6 +23,6 @@ test -f hasrun || {
 
     # su -c "sh ./scripts/initpulse.sh $2" $1
     echo "sudo -u $3 sh ./scripts/run-runner.sh $2"
-    sudo -u $3 ./scripts/run-runner.sh $2 $4
+    sudo -u $3 ./scripts/run-runner.sh $2 $4 $5
     echo "Done with running script"
 }
