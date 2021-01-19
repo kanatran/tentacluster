@@ -1,19 +1,23 @@
 {
-  "name": "runner",
+  "name": "tentacluster",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": ".eslintrc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botrans/tentacluster.git"
+  },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "node-fetch": "^2.6.1",
-    "puppeteer": "5.4.1"
+  "bugs": {
+    "url": "https://github.com/botrans/tentacluster/issues"
   },
+  "homepage": "https://github.com/botrans/tentacluster#readme",
   "devDependencies": {
-    "eslint": "^7.17.0",
+    "eslint": "^7.18.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",

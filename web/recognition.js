@@ -49,7 +49,7 @@ const srtTimestamp = milliseconds => {
   let seconds = Math.round(milliseconds / 1000)
   // let milliseconds = seconds * 1000
   let minutes = Math.floor(seconds / 60)
-  let hours = Math.floor(minutes / 60)
+  const hours = Math.floor(minutes / 60)
   milliseconds = milliseconds % 1000
   seconds = seconds % 60
   minutes = minutes % 60
@@ -67,7 +67,7 @@ recognition.onstart = () => {
   console.debug('Recognition started')
 }
 
-let begin = new Date().getTime()
+const begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
 let index = 1
 
@@ -99,7 +99,7 @@ let runningText = {
 }
 
 setInterval(() => {
-  if (runningText.num == 0) return
+  if (runningText.num === 0) return
   translate(runningText.text).then(async translation => {
     translation = translation.replaceAll('。', '.')
     await send(runningText.text, translation)
