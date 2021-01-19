@@ -40,7 +40,7 @@ youtube-dl --version
 pushd ..
 git clone https://github.com/Botrans/baquap
 pushd baquap
-git config --global user.name 'Kanatran Bot'
+git config --global user.name 'Kanatran'
 git config --global user.email '<>'
 git remote set-url origin https://x-access-token:$3@github.com/kanatran/baquap.git
 popd
