@@ -8,4 +8,4 @@ class TranscriptEvent(BaseModel):
     text: str
     translation: Optional[str]
     srtTime: List[str]
-    index: int
+    tlIndex: int
