@@ -14,16 +14,33 @@ const fixMistakes = (text) => {
 }
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+const messagehistory = new Array(10)
+let tlIndex = 0
 
 const translate = text => {
   return new Promise((resolve, reject) => {
     const e = document.createElement('div')
-    e.textContent = text
+    let i = (tlIndex + 1) % messagehistory.length
+    while (i !== tlIndex) {
+      const thistl = messagehistory[i]
+      if (thistl) {
+        e.innerHTML += `
+          <span>${thistl}</span>
+        `
+      }
+      i = (i + 1) % messagehistory.length
+    }
+    const tlelement = document.createElement('span')
+    tlelement.textContent = text
+    e.appendChild(tlelement)
     let lasttl = setTimeout(() => { }, 0)
     const callback = () => {
-      const content = e.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
+      const content = tlelement.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
       clearTimeout(lasttl)
-      lasttl = setTimeout(() => resolve(content), 1000)
+      lasttl = setTimeout(() => {
+        messagehistory[tlIndex++] = text
+        resolve(content)
+      }, 1000)
     }
     document.body.appendChild(e)
     e.addEventListener('DOMSubtreeModified', callback)
@@ -69,7 +86,7 @@ recognition.onstart = () => {
 
 const begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
-let index = 1
+let messageIndex = 1
 
 const send = async (text, translation) => {
   const current = new Date().getTime()
@@ -86,7 +103,7 @@ const send = async (text, translation) => {
       srtTime,
       text,
       translation,
-      index: index++
+      tlIndex: messageIndex++
     })
   })
   lastSrt = srtTime[1]
