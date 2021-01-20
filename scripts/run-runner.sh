@@ -55,17 +55,22 @@ echo Mashine $1
 
 # Actual python should be at /opt/hostedtoolcache/Python/3.8.7/x64/bin/python3
 echo Using $2
-export CHANNEL_ID=$(jq .[$(( $1 + $4 ))].channel | sed 's/"//g')
+echo Action index $4
+export CHANNEL_ID=$(jq .[$(($1 + $4))].channel channels.json | sed 's/"//g')
+echo CHANNEL_ID: $CHANNEL_ID
 
-test $CHANNEL_ID = "null" || {
+if [ $CHANNEL_ID != "null" ]
+then
 	echo Using channel $CHANNEL_ID
 	$2 -m pip install -r requirements.txt
 	$2 -m pip install uvicorn fastapi
+	$2 scripts/setup_chrome.py
+	echo "$2 scripts/run_audio.py $CHANNEL_ID &"
 	$2 scripts/run_audio.py $CHANNEL_ID &
 	$2 -m uvicorn server:app --app-dir=scripts --port=42069
-} && {
+else
 	echo Channel_ID was null, quiting
-}
+fi
 
 # mpv --no-video $live &
 # echo PCM devices available

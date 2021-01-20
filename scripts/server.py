@@ -19,6 +19,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory=static), name="static")
 
 # defaults to kanata
+print("Using ch", os.environ.get("CHANNEL_ID"))
 ytl = YTLiveService(os.environ.get("CHANNEL_ID", "UCZlDXzGoo7d44bwdNObFacg"))
 
 translate = ts.bing
@@ -34,7 +35,8 @@ async def translate(jap: str) -> Optional[str]:
 def get_video_id() -> str:
     try:
         return re.search(r"\?v\=(.+)", ytl.live_link).group(1)
-    except Exception:
+    except Exception as e:
+        print("Video ID Error:", e)
         return "testVideoID"
 
 
