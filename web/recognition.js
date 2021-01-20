@@ -14,7 +14,7 @@ const fixMistakes = (text) => {
 }
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
-const messagehistory = new Array(3)
+const messagehistory = new Array(10)
 let tlIndex = 0
 
 const translate = text => {
