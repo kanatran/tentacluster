@@ -1,5 +1,9 @@
 /* eslint-disable no-new */
 
+setInterval(() => {
+  document.dispatchEvent(new Event('focusin'))
+}, 1000)
+
 const THRESHOLD = 0.75
 
 // const commonMistakes = {
