@@ -45,10 +45,7 @@ async def transcript_event(transcript: TranscriptEvent):
     print("Browser translation:", transcript.translation)
     # loop = asyncio.get_event_loop()
     await aio_write_transcripts(
-        "testvideoid",
-        transcript.text,
-        transcript.translation,
-        transcript.srtTime
+        "testvideoid", transcript.text, transcript.translation, transcript.srtTime
     )
     # write_transcripts('testvideo', 'test transcript', 'テスト翻訳', ['00:00:00,000', '00:00:01,000'], 1)
     # print("Bing translation:", await translate(transcript.text))
