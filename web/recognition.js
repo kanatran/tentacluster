@@ -86,25 +86,27 @@ recognition.onstart = () => {
 const begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
 
-const send = async (text, translation) => {
+const send = async (text, translation, actuallySend = true) => {
   const current = new Date().getTime()
   const time = current - begin
   const srtTime = [lastSrt, srtTimestamp(time)]
-  const res = await fetch('/transcript', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      timestamp: Math.round(time / 1000),
-      srtTime,
-      text,
-      translation
+  if (actuallySend) {
+    console.log(`${text}\n%c${translation}`, 'font-size: x-large')
+    await fetch('/transcript', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        timestamp: Math.round(time / 1000),
+        srtTime,
+        text,
+        translation
+      })
     })
-  })
+  }
   lastSrt = srtTime[1]
-  return res
 }
 
 let currentText = ''
@@ -112,13 +114,8 @@ let currentText = ''
 setInterval(async () => {
   const backupText = currentText
   currentText = ''
-  if (backupText.replace(/\W/g, '')) {
-    const translation = (await translate(backupText)).replaceAll('。', '.')
-    if (translation) {
-      console.log(`%c${translation}`, 'font-size: x-large')
-      await send(backupText, translation)
-    }
-  }
+  const translation = (await translate(backupText)).replaceAll('。', '.')
+  await send(backupText, translation, backupText)
 }, 15000)
 
 recognition.onresult = async (event) => {
