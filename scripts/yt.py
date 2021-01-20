@@ -1,6 +1,6 @@
 import time
-from threading import Thread
-from typing import Optional
+from threading import Event, Thread
+from typing import List, Optional
 
 from bs4 import BeautifulSoup
 
@@ -25,14 +25,27 @@ class YTLiveService(Thread):
         super().__init__(daemon=True)
         self._channel_link = f"{yt}/channel/{channel_id}"
         self._web: Optional[ChromeDriver] = None
+        self._subscribers: List[Event] = []
         self.live_link: Optional[str] = None
         self.start()
+
+    def listen(self) -> Event:
+        e = Event()
+        self._subscribers.append(e)
+        return e
 
     def run(self):
         self._web = self.__get_selenium()
         while 1:
+            old_link = self._channel_link
             self.__update_live_link()
+            if self.live_link != old_link:
+                self.__publish_on_change()
             time.sleep(self.refresh_interval)
+
+    def __publish_on_change(self) -> None:
+        for sub in self._subscribers:
+            sub.set()
 
     def __update_live_link(self) -> None:
         self._web.get(self._channel_link)
