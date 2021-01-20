@@ -2,9 +2,8 @@ import time
 from threading import Event, Thread
 from typing import List, Optional
 
-from bs4 import BeautifulSoup
-
 from autoselenium import chrome
+from bs4 import BeautifulSoup
 
 yt = "https://www.youtube.com"
 ChromeDriver = chrome.webdriver.Chrome
@@ -37,7 +36,7 @@ class YTLiveService(Thread):
     def run(self):
         self._web = self.__get_selenium()
         while 1:
-            old_link = self._channel_link
+            old_link = self.live_link
             self.__update_live_link()
             if self.live_link != old_link:
                 self.__publish_on_change()
@@ -49,6 +48,7 @@ class YTLiveService(Thread):
 
     def __update_live_link(self) -> None:
         self._web.get(self._channel_link)
+        time.sleep(2)
         soup = BeautifulSoup(self._web.page_source, "html.parser")
         try:
             if soup.find("span", {"aria-label": "LIVE"}):

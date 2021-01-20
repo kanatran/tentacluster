@@ -2,8 +2,10 @@
 python run_audio.py channel_id
 """
 
-from subprocess import PIPE, Popen
 import sys
+from subprocess import Popen
+from tempfile import TemporaryFile
+from threading import Event, Thread
 
 from yt import YTLiveService
 
@@ -13,12 +15,15 @@ processes = list()
 def stop_audio():
     for p in processes:
         p.terminate()
+    processes[:] = []
 
 
 def play(link: str):
     print("Playing", link)
     stop_audio()
-    processes.append(Popen(["mpv", "--no-video", link], stdout=PIPE, stderr=PIPE,))
+    p = Popen(
+        ["mpv", "--no-video", link], stdout=TemporaryFile(), stderr=TemporaryFile()
+    )
 
 
 def main() -> None:
@@ -28,7 +33,7 @@ def main() -> None:
         if ytl.live_link:
             play(ytl.live_link)
         else:
-            print("Vtuber not live anymore")
+            print("Vtuber not live", ytl.live_link)
         change.wait()
         change.clear()
 
