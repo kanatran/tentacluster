@@ -110,14 +110,15 @@ const send = async (text, translation) => {
 let currentText = ''
 
 setInterval(async () => {
-  if (currentText.replace(/\W/g, '')) {
-    const translation = (await translate(currentText)).replaceAll('。', '.')
+  const backupText = currentText
+  currentText = ''
+  if (backupText.replace(/\W/g, '')) {
+    const translation = (await translate(backupText)).replaceAll('。', '.')
     if (translation) {
       console.log(`%c${translation}`, 'font-size: x-large')
-      await send(currentText, translation)
+      await send(backupText, translation)
     }
   }
-  currentText = ''
 }, 15000)
 
 recognition.onresult = async (event) => {
