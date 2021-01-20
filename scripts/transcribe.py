@@ -7,7 +7,9 @@ from typing import List
 static = Path(__file__).resolve().parent
 
 
-async def aio_write_transcripts(video, transcript, translation, srtTimes):
+async def aio_write_transcripts(
+    video: str, transcript: str, translation: str, srtTimes: List[str]
+):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(
         None, lambda: write_transcripts(video, transcript, translation, srtTimes)
