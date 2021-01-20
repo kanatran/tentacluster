@@ -6,10 +6,12 @@
   <script>
     Object.defineProperty(window.document, 'hidden', { get: () => false, configurable: true })
     Object.defineProperty(window.document, 'visibilityState', { get: () => 'visible', configurable: true })
-    window.document.dispatchEvent(new Event('visibilitychange'))
   </script>
   <script type="text/javascript"
     src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script>
+    window.document.dispatchEvent(new Event('visibilitychange'))
+  </script>
   <script defer src="./recognition.js"></script>
 </head>
 
