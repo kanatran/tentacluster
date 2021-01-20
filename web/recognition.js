@@ -14,7 +14,7 @@ const fixMistakes = (text) => {
 }
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
-const messagehistory = new Array(10)
+const messagehistory = new Array(3)
 let tlIndex = 0
 
 const translate = text => {
@@ -38,7 +38,8 @@ const translate = text => {
       const content = tlelement.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
       clearTimeout(lasttl)
       lasttl = setTimeout(() => {
-        messagehistory[tlIndex++] = text
+        messagehistory[tlIndex] = text
+        tlIndex = (tlIndex + 1) % messagehistory.length
         e.remove()
         resolve(content)
       }, 1000)
