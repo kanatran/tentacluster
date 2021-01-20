@@ -107,21 +107,17 @@ const send = async (text, translation) => {
   return res
 }
 
-let runningText = {
-  text: '',
-  num: 0
-}
+let currentText = ''
 
-setInterval(() => {
-  if (runningText.num === 0) return
-  translate(runningText.text).then(async translation => {
-    translation = translation.replaceAll('。', '.')
-    console.log(`%c${translation}`, 'font-size: x-large')
-    await send(runningText.text, translation)
-  })
-  runningText = {
-    text: '',
-    num: 0
+setInterval(async () => {
+  const backupText = currentText
+  currentText = ''
+  if (backupText.replace(/\W/g, '')) {
+    const translation = (await translate(backupText)).replaceAll('。', '.')
+    if (translation) {
+      console.log(`%c${translation}`, 'font-size: x-large')
+      await send(backupText, translation)
+    }
   }
 }, 15000)
 
@@ -132,8 +128,7 @@ recognition.onresult = async (event) => {
   console.debug(resultText)
   if (result.isFinal) {
     if (confidence >= THRESHOLD) {
-      runningText.text += resultText + '　'
-      runningText.num++
+      currentText += resultText + '　'
     }
   }
 }
