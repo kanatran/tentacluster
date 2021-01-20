@@ -1,9 +1,5 @@
 /* eslint-disable no-new */
 
-setInterval(() => {
-  document.dispatchEvent(new Event('focusin'))
-}, 1000)
-
 const THRESHOLD = 0.75
 
 // const commonMistakes = {
@@ -37,19 +33,16 @@ const translate = text => {
     const tlelement = document.createElement('span')
     tlelement.textContent = text
     e.appendChild(tlelement)
-    let lasttl = setTimeout(() => { }, 0)
     const callback = () => {
       const content = tlelement.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
-      clearTimeout(lasttl)
-      lasttl = setTimeout(() => {
-        messagehistory[tlIndex] = text
-        tlIndex = (tlIndex + 1) % messagehistory.length
-        e.remove()
-        resolve(content)
-      }, 1000)
+      messagehistory[tlIndex] = text
+      tlIndex = (tlIndex + 1) % messagehistory.length
+      e.remove()
+      resolve(content)
     }
     document.body.appendChild(e)
-    e.addEventListener('DOMSubtreeModified', callback)
+    new MutationObserver(callback).observe(tlelement,
+      { attributes: true, childList: true, characterData: true })
   })
 }
 
