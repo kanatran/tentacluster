@@ -110,7 +110,7 @@ const send = async (text, translation) => {
 let currentText = ''
 
 setInterval(() => {
-  if (currentText.replace(/\s/g, '')) {
+  if (currentText.replace(/\W/g, '')) {
     translate(currentText).then(async translation => {
       translation = translation.replaceAll('。', '.')
       if (translation) {
