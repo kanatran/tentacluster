@@ -109,15 +109,13 @@ const send = async (text, translation) => {
 
 let currentText = ''
 
-setInterval(() => {
+setInterval(async () => {
   if (currentText.replace(/\W/g, '')) {
-    translate(currentText).then(async translation => {
-      translation = translation.replaceAll('。', '.')
-      if (translation) {
-        console.log(`%c${translation}`, 'font-size: x-large')
-        await send(currentText, translation)
-      }
-    })
+    const translation = (await translate(currentText)).replaceAll('。', '.')
+    if (translation) {
+      console.log(`%c${translation}`, 'font-size: x-large')
+      await send(currentText, translation)
+    }
   }
   currentText = ''
 }, 15000)
