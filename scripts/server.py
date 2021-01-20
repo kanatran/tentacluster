@@ -48,8 +48,7 @@ async def transcript_event(transcript: TranscriptEvent):
         "testvideoid",
         transcript.text,
         transcript.translation,
-        transcript.srtTime,
-        transcript.tlIndex,
+        transcript.srtTime
     )
     # write_transcripts('testvideo', 'test transcript', 'テスト翻訳', ['00:00:00,000', '00:00:01,000'], 1)
     # print("Bing translation:", await translate(transcript.text))

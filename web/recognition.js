@@ -85,7 +85,6 @@ recognition.onstart = () => {
 
 const begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
-let messageIndex = 1
 
 const send = async (text, translation) => {
   const current = new Date().getTime()
@@ -101,8 +100,7 @@ const send = async (text, translation) => {
       timestamp: Math.round(time / 1000),
       srtTime,
       text,
-      translation,
-      tlIndex: messageIndex++
+      translation
     })
   })
   lastSrt = srtTime[1]
