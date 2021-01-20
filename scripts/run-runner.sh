@@ -55,7 +55,7 @@ echo Mashine $1
 
 # Actual python should be at /opt/hostedtoolcache/Python/3.8.7/x64/bin/python3
 echo Using $2
-export CHANNEL_ID=$(jq .[$(( $1 + $4 ))].channel | sed 's/"//g' )
+export CHANNEL_ID=$(jq .[$(( $1 + $4 ))].channel | sed 's/"//g')
 
 test $CHANNEL_ID = "null" || {
 	echo Using channel $CHANNEL_ID
