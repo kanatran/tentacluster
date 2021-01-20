@@ -23,14 +23,14 @@ pacmd list-sinks
 echo Sources:
 pacmd list-sources && echo listed sources
 
-function mplay() {
-    echo Playing $1
-    mpv --no-video $1 &> /dev/null
-    echo Finished playing $1
-    pkill uvicorn
-    pkill chrome
-    exit 0
-}
+# function mplay() {
+#     echo Playing $1
+#     mpv --no-video $1 &> /dev/null
+#     echo Finished playing $1
+#     pkill uvicorn
+#     pkill chrome
+#     exit 0
+# }
 
 # node runner/index.js $1 &
 # cd dictation-kit
@@ -50,14 +50,22 @@ popd
 
 # live="https://www.youtube.com/watch?v=fxhrQCIeSOQ"
 echo Mashine $1
-live=$(jq .[$1] links.json | sed 's/"//g')
-mplay $live &
+# live=$(jq .[$1] links.json | sed 's/"//g')
+# mplay $live &
 
 # Actual python should be at /opt/hostedtoolcache/Python/3.8.7/x64/bin/python3
 echo Using $2
-$2 -m pip install -r requirements.txt
-$2 -m pip install uvicorn fastapi
-$2 -m uvicorn server:app --app-dir=scripts --port=42069
+export CHANNEL_ID=$(jq .[$(( $1 + $4 ))].channel | sed 's/"//g' )
+
+test $CHANNEL_ID = "null" || {
+	echo Using channel $CHANNEL_ID
+	$2 -m pip install -r requirements.txt
+	$2 -m pip install uvicorn fastapi
+	$2 scripts/run_audio.py $CHANNEL_ID &
+	$2 -m uvicorn server:app --app-dir=scripts --port=42069
+} && {
+	echo Channel_ID was null, quiting
+}
 
 # mpv --no-video $live &
 # echo PCM devices available

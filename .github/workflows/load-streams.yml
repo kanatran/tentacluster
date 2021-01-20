@@ -5,9 +5,9 @@ name: Load Streams
 on:
   workflow_dispatch:
     inputs:
-      sleeptime:
-        description: 'Length of time spent sleeping in seconds'
-        default: 30
+      actionIndex:
+        description: 'Action index'
+        default: 0
         required: false
 
 jobs:
@@ -63,12 +63,12 @@ jobs:
     - name: Set up PulseAudio and run script
       run: |
         chmod +x ./scripts/*.sh
-        sudo sh ./scripts/initpulse.sh $(whoami) ${{ matrix.machine }} $USER $(which python3) ${{ secrets.BOT_ACCESS_TOKEN }}
+        sudo sh ./scripts/initpulse.sh $(whoami) ${{ matrix.machine }} $USER $(which python3) ${{ secrets.BOT_ACCESS_TOKEN }} ${{ github.event.inputs.actionIndex }}
     - name: After running
       run: |
         # node runner/index.js ${{ matrix.machine }}
         # sudo sh ./scripts/run-runner.sh ${{ matrix.machine }}
-        echo Skip sleeping for ${{ github.event.inputs.sleeptime }} seconds
+        # echo Skip sleeping for ${{ github.event.inputs.sleeptime }} seconds
         echo Machine ${{ matrix.machine }} finished
     - uses: actions/upload-artifact@v2
       with:
