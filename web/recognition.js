@@ -39,6 +39,7 @@ const translate = text => {
       clearTimeout(lasttl)
       lasttl = setTimeout(() => {
         messagehistory[tlIndex++] = text
+        e.remove()
         resolve(content)
       }, 1000)
     }
@@ -135,7 +136,7 @@ recognition.onresult = async (event) => {
   console.debug(resultText)
   if (result.isFinal) {
     if (confidence >= THRESHOLD) {
-      runningText.text += resultText + '。'
+      runningText.text += resultText + '　'
       runningText.num++
     }
   }
