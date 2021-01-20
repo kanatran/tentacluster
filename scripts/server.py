@@ -7,6 +7,7 @@ from typing import Optional
 
 import translators as ts
 from autoselenium import chrome
+from yt import YTLiveService
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from models import TranscriptEvent
@@ -16,6 +17,9 @@ static = Path(__file__).resolve().parent / "../web"
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=static), name="static")
+
+# defaults to kanata
+ytl = YTLiveService(os.environ.get("CHANNEL_ID", "UCZlDXzGoo7d44bwdNObFacg"))
 
 translate = ts.bing
 
@@ -27,7 +31,14 @@ async def translate(jap: str) -> Optional[str]:
     return None
 
 
-def launch_selenium():
+def get_video_id() -> str:
+    try:
+        return re.search(r"\?v\=(.+)", ytl.live_link).group(1)
+    except Exception:
+        return "testVideoID"
+
+
+def launch_selenium() -> None:
     global web  # Avoid garbage collection
     chrome.setup_driver()
     web = chrome.get_selenium(True)
@@ -43,9 +54,10 @@ async def transcript_event(transcript: TranscriptEvent):
     print("Got transcript:", transcript.text)
     print("At time:", transcript.timestamp)
     print("Browser translation:", transcript.translation)
+    vid = get_video_id()
     # loop = asyncio.get_event_loop()
     await aio_write_transcripts(
-        "testvideoid", transcript.text, transcript.translation, transcript.srtTime
+        vid, transcript.text, transcript.translation, transcript.srtTime
     )
     # write_transcripts('testvideo', 'test transcript', 'テスト翻訳', ['00:00:00,000', '00:00:01,000'], 1)
     # print("Bing translation:", await translate(transcript.text))
