@@ -24,7 +24,6 @@ def setup_driver() -> None:
     __setup_driver()
 
 
-# FIXME display option doesn't do anything right now
 def get_selenium(display: bool = False) -> webdriver.Firefox:
     fp = webdriver.FirefoxProfile()
     fp.DEFAULT_PREFERENCES["frozen"]["xpinstall.signatures.required"] = False
@@ -34,9 +33,6 @@ def get_selenium(display: bool = False) -> webdriver.Firefox:
         executable_path=__platform_drivers[su.platform],
         firefox_profile=fp,
         options=options,
-    )
-    browser.install_addon(
-        str(Path(".").resolve() / "dist" / "firefox" / "LiveTL.xpi"), True
     )
     return browser
 
