@@ -15,7 +15,6 @@ on:
 jobs:
   load-streams:
     continue-on-error: true
-    # 4269
     timeout-minutes: 10
     runs-on: ubuntu-latest
     strategy:
@@ -49,15 +48,8 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-    # - uses: actions/setup-node@v2
-    #   with:
-    #     node-version: '12'
-    # - name: npm install
-    #   run: |
-    #     npm install
     - name: Update youtube-dl
       run: |
-        # sudo youtube-dl -U
         sudo apt remove -y youtube-dl
         sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl || sleep 10 && sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl
         sudo chmod a+x /usr/bin/youtube-dl
@@ -68,9 +60,6 @@ jobs:
         export ACTUAL_PYTHON=$(which python3)
         echo $ACTUAL_PYTHON
         echo $(which python3)
-    # - name: Clone Julius
-    #   run: |
-    #     git clone https://github.com/julius-speech/dictation-kit
     - uses: n1hility/cancel-previous-runs@v2
       with: 
         token: ${{ secrets.WORKFLOW_TOKEN }}
@@ -82,9 +71,6 @@ jobs:
         # Action index: ${{ github.event.inputs.actionIndex }}
     - name: After running
       run: |
-        # node runner/index.js ${{ matrix.machine }}
-        # sudo sh ./scripts/run-runner.sh ${{ matrix.machine }}
-        # echo Skip sleeping for ${{ github.event.inputs.sleeptime }} seconds
         echo Machine ${{ matrix.machine }} finished
     - uses: actions/upload-artifact@v2
       with:
