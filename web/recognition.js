@@ -134,6 +134,16 @@ recognition.onspeechend = () => recognition.stop()
 
 recognition.onerror = async e => {
   console.error('Error', e)
+  await fetch('/error', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: `{e.error}:  {e.message}`
+    })
+  })
   // await send(' {e.error}:  {e.message}')
 }
 
