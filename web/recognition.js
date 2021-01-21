@@ -141,7 +141,7 @@ recognition.onerror = async e => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message: `{e.error}:  {e.message}`
+      message: `${e.error}: ${e.message}`
     })
   })
   // await send(' {e.error}:  {e.message}')
