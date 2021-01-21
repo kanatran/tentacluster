@@ -1,6 +1,7 @@
 import asyncio
 import os
 import re
+import sys
 from pathlib import Path
 from pprint import pprint
 from threading import Thread
@@ -11,7 +12,7 @@ from autoselenium import chrome
 from yt import YTLiveService
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from models import TranscriptEvent
+from models import ClientError, TranscriptEvent
 from transcribe import aio_write_transcripts
 
 static = Path(__file__).resolve().parent / "../web"
@@ -50,6 +51,12 @@ def launch_selenium() -> None:
     except Exception:
         pass
     web.get("http://localhost:42069/static/index.html")
+
+
+@app.post("/error")
+async def error(err: ClientError):
+    print("Got error message:", err.message, file=sys.stderr)
+    return 200
 
 
 @app.post("/transcript")

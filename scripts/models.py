@@ -8,3 +8,7 @@ class TranscriptEvent(BaseModel):
     text: str
     translation: Optional[str]
     srtTime: List[str]
+
+
+class ClientError(BaseModel):
+    message: str
