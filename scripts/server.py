@@ -55,7 +55,7 @@ def launch_selenium() -> None:
 
 @app.post("/error")
 async def error(err: ClientError):
-    print("Got error message:", err.message, file=sys.stderr)
+    print("Got error message:", err.message)
     return 200
 
 
