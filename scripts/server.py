@@ -8,6 +8,7 @@ from threading import Thread
 from typing import Optional
 
 import translators as ts
+import aiohttp
 from autoselenium import chrome
 from yt import YTLiveService
 from fastapi import FastAPI
@@ -19,12 +20,14 @@ static = Path(__file__).resolve().parent / "../web"
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=static), name="static")
+session = aiohttp.ClientSession()
 
 # defaults to kanata
-print("Using ch", os.environ.get("CHANNEL_ID"))
-ytl = YTLiveService(os.environ.get("CHANNEL_ID", "UCZlDXzGoo7d44bwdNObFacg"))
+# print("Using ch", os.environ.get("CHANNEL_ID"))
+# ytl = YTLiveService(os.environ.get("CHANNEL_ID", "UCZlDXzGoo7d44bwdNObFacg"))
 
 translate = ts.bing
+link_url = "http://localhost:6969/link"
 
 
 async def translate(jap: str) -> Optional[str]:
@@ -34,9 +37,15 @@ async def translate(jap: str) -> Optional[str]:
     return None
 
 
-def get_video_id() -> str:
+async def get_live_link():
+    r = await session.request(method="GET", url=link_url)
+    return await r.text()
+
+
+async def get_video_id() -> str:
+    link = await get_live_link()
     try:
-        return re.search(r"\?v\=(.+)", ytl.live_link).group(1)
+        return re.search(r"\?v\=(.+)", link).group(1)
     except Exception as e:
         print("Video ID Error:", e)
         return "testVideoID"
@@ -64,7 +73,7 @@ async def transcript_event(transcript: TranscriptEvent):
     print("Got transcript:", transcript.text)
     print("At time:", transcript.timestamp)
     print("Browser translation:", transcript.translation)
-    vid = get_video_id()
+    vid = await get_video_id()
     await aio_write_transcripts(
         vid, transcript.text, transcript.translation, transcript.srtTime
     )

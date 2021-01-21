@@ -50,8 +50,7 @@ then
 	$2 -m pip install -r requirements.txt
 	$2 -m pip install uvicorn fastapi
 	$2 scripts/setup_chrome.py
-	echo "$2 scripts/run_audio.py $CHANNEL_ID &"
-	$2 scripts/run_audio.py $CHANNEL_ID &
+	$2 -m uvicorn run_audio:app --app-dir=scripts --port=6969 &
 	$2 -m uvicorn server:app --app-dir=scripts --port=42069
 else
 	echo Channel_ID was null, quiting

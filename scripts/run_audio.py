@@ -2,14 +2,24 @@
 python run_audio.py channel_id
 """
 
+import os
 import sys
 from subprocess import Popen
 from tempfile import TemporaryFile
 from threading import Event, Thread
 
+from fastapi import FastAPI, Response
+
 from yt import YTLiveService
 
 processes = list()
+
+app = FastAPI()
+
+
+@app.get("/link")
+async def link():
+    return Response(content=ytl.live_link, media_type="text/html")
 
 
 def fprint(*args, **kwargs) -> None:
@@ -31,8 +41,10 @@ def play(link: str):
 
 
 def main() -> None:
+    global ytl
+
     fprint("Starting audio monitor of", sys.argv[1])
-    ytl = YTLiveService(sys.argv[1])
+    ytl = YTLiveService(os.environ.get("CHANNEL_ID"))
     change = ytl.listen()
     while 1:
         if ytl.live_link:
@@ -50,3 +62,5 @@ if __name__ == "__main__":
     except (Exception, SystemExit):
         fprint("Exiting")
         stop_audio()
+else:
+    Thread(target=main, daemon=True).start()

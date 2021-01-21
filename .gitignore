@@ -3,3 +3,4 @@ package-lock.json
 *.swp
 __pycache__/
 drivers/
+*.log
