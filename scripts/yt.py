@@ -2,7 +2,7 @@ import time
 from threading import Event, Thread
 from typing import List, Optional
 
-from autoselenium import chrome
+from autoselenium import chrome, firefox
 from bs4 import BeautifulSoup
 
 yt = "https://www.youtube.com"
@@ -63,6 +63,6 @@ class YTLiveService(Thread):
 
     @staticmethod
     def __get_selenium() -> ChromeDriver:
-        chrome.setup_driver()
-        web = chrome.get_selenium(False)
+        firefox.setup_driver()
+        web = firefox.get_selenium(False)
         return web
