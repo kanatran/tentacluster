@@ -43,7 +43,7 @@ def play(link: str):
 def main() -> None:
     global ytl
 
-    fprint("Starting audio monitor of", sys.argv[1])
+    fprint("Starting audio monitor of", os.environ.get("CHANNEL_ID"))
     ytl = YTLiveService(os.environ.get("CHANNEL_ID"))
     change = ytl.listen()
     while 1:
