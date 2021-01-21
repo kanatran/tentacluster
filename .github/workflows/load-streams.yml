@@ -3,14 +3,14 @@
 name: Load Streams
 
 on:
+  schedule:
+    - cron: '*/10 * * * *'
   workflow_dispatch:
     # inputs:
     #   actionIndex:
     #     description: 'Action index'
     #     default: 0
     #     required: false
-  schedule:
-    - cron:  '*/10 * * * *'
 
 jobs:
   load-streams:
