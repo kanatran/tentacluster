@@ -36,7 +36,10 @@ def play(link: str):
     fprint("Playing", link)
     stop_audio()
     p = Popen(
-        ["mpv", "--no-video", link], stdout=TemporaryFile(), stderr=TemporaryFile()
+        ["mpv", "--no-video", link],
+        stdout=TemporaryFile(),
+        stderr=TemporaryFile(),
+        shell=True,
     )
 
 
