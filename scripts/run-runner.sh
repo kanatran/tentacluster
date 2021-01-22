@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Is running the thing"
-pulseaudio -vvvv -D
+sudo pulseaudio --system --disallow-exit -vvvv -D
 echo "Have run the thing"
 sleep 10
 
