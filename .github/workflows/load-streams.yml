@@ -63,7 +63,6 @@ jobs:
     - uses: n1hility/cancel-previous-runs@v2
       with: 
         token: ${{ secrets.WORKFLOW_TOKEN }}
-        workflow: load-streams.yml
     - name: Set up PulseAudio and run script
       run: |
         chmod +x ./scripts/*.sh
