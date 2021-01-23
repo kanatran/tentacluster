@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -26,7 +27,7 @@ def write_transcripts(
     paths = [
         f"{static}/../../baquap/transcript.srt",
         f"{static}/../../baquap/tl_transcript.srt",
-        f"{static}/../../baquap/last_tl.txt",
+        f"{static}/../../baquap/last_tl.json",
     ]
 
     if not os.path.exists(paths[2]):
@@ -46,12 +47,18 @@ def write_transcripts(
 {translation}
 
 """,
-        f"""{index}
-{time}
-{transcript}
-{translation}
-
-""",
+        json.dumps(
+            {
+                "index": index,
+                "time": srtTimes,
+                "transcript": transcript,
+                "translation": translation,
+            },
+            sort_keys=True,
+            indent=4,
+            separators=(",", ": "),
+            ensure_ascii=False,
+        ),
     ]
 
     with open(paths[0], "a+") as f:
