@@ -52,7 +52,7 @@ jobs:
       run: |
         echo mpv version
         mpv --version
-        sudo apt-get upgrade mpv --fix-missing
+        sudo apt-get upgrade mpv
         mpv --version
         echo updating ytdl
         sudo apt remove -y youtube-dl
