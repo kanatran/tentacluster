@@ -2,7 +2,7 @@
 echo "Is running the thing"
 pulseaudio -vvvv -D
 echo "Have run the thing"
-sleep 10
+sleep 1
 
 echo "Create virtual output device (used for audio playback)"
 pactl load-module module-null-sink sink_name=DummyOutput sink_properties=device.description="CustomSpeaker"
@@ -15,6 +15,9 @@ pacmd set-default-source CustomAudioPipe.monitor
 
 echo "Create a virtual audio source linked up to the virtual microphone output"
 pacmd load-module module-virtual-source source_name="CustomMicrophone"
+
+echo "Disable idle timeout"
+pacmd unload-module module-suspend-on-idle
 
 # Used for debugging audio
 pulseaudio --check -vvvv
