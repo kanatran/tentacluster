@@ -67,6 +67,16 @@ jobs:
       uses: styfle/cancel-workflow-action@0.7.0
       with:
         access_token: ${{ secrets.WORKFLOW_TOKEN }}
+    - name: Clone baquap
+      run: |
+        pushd ..
+        git clone https://github.com/Botrans/baquap
+        pushd baquap
+        git config --global user.name 'Kanatran'
+        git config --global user.email '<>'
+        git remote set-url origin https://x-access-token:$3@github.com/kanatran/baquap.git
+        popd
+        popd
     - name: Set up PulseAudio and run script
       run: |
         chmod +x ./scripts/*.sh
