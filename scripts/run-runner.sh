@@ -46,8 +46,19 @@ function bruhpv() {
 	done
 }
 
+function bruhpvstatus() {
+	while true
+	do
+		echo "<STATUS> pgrepping mpv"
+		pgrep mpv
+		echo "</STATUS>"
+		sleep 30
+	done
+}
+
 touch bruh.txt
 bruhpv &
+bruhpvstatus &
 
 echo Printing release
 youtube-dl --version
