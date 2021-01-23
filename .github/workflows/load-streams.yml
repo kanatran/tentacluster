@@ -50,7 +50,6 @@ jobs:
         python-version: 3.8
     - name: Update youtube-dl and mpv
       run: |
-        sudo apt remove -y mpv
         sudo apt-get install --only-upgrade mpv
         echo mpv version
         mpv --version
