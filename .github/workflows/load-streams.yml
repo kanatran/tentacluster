@@ -50,11 +50,12 @@ jobs:
         python-version: 3.8
     - name: Update youtube-dl and mpv
       run: |
+        sudo apt remove -y mpv
+        sudo add-apt-repository ppa:blinxwang/mpv-builds -y
+        sudo apt-get update
+        sudo apt-get install mpv
         echo mpv version
         mpv --version
-        sudo apt-get upgrade mpv
-        mpv --version
-        echo updating ytdl
         sudo apt remove -y youtube-dl
         sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl || sleep 10 && sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/bin/youtube-dl
         sudo chmod a+x /usr/bin/youtube-dl
