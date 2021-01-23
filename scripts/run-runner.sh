@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Is running the thing"
-sudo pulseaudio -vvvv -D
+pulseaudio -vvvv -D
 echo "Have run the thing"
 sleep 10
 
@@ -35,7 +35,7 @@ function bruhpv() {
 		then
 			echo Playing $newbruh
 			pkill mpv
-			mpv --no-video $newbruh &
+			mpv --no-video $newbruh &> /dev/null
 		fi
 		bruh=$newbruh
 		sleep 10
