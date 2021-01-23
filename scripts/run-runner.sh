@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Is running the thing"
-pulseaudio -vvvv -D
+pulseaudio -vvvv -D --exit-idle-time=-1
 echo "Have run the thing"
 sleep 1
 
@@ -20,7 +20,7 @@ echo "Disable idle timeout"
 pacmd unload-module module-suspend-on-idle
 
 # Used for debugging audio
-pulseaudio --check -vvvv
+# pulseaudio --check -vvvv
 echo Soundcards:
 pacmd list soundcards
 echo Sinks:
