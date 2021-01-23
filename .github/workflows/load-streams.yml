@@ -4,7 +4,8 @@ name: Load Streams
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '*/15 * * * *'
   workflow_dispatch:
     # inputs:
     #   actionIndex:
@@ -15,7 +16,7 @@ on:
 jobs:
   load-streams:
     continue-on-error: true
-    timeout-minutes: 20
+    # timeout-minutes: 20
     runs-on: ubuntu-18.04
     strategy:
       matrix: 
