@@ -34,7 +34,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '12'
-    - name: Setup xvfb (Linux)
+    - name: Install packages with apt-get
       run: |
         sudo add-apt-repository ppa:mc3man/mpv-tests -y
         sudo apt-get update
