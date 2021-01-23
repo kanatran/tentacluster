@@ -4,6 +4,7 @@ python run_audio.py channel_id
 
 import os
 import sys
+from pathlib import Path
 from subprocess import Popen
 from tempfile import TemporaryFile
 from threading import Event, Thread
@@ -34,13 +35,15 @@ def stop_audio():
 
 def play(link: str):
     fprint("Playing", link)
-    stop_audio()
-    p = Popen(
-        ["mpv", "--no-video", link],
-        stdout=TemporaryFile(),
-        stderr=TemporaryFile(),
-        shell=True,
-    )
+    with open(Path(__file__).parent / "../bruh.txt", "w+") as fout:
+        fout.write(link)
+    # stop_audio()
+    # p = Popen(
+    #     ["mpv", "--no-video", link],
+    #     stdout=TemporaryFile(),
+    #     stderr=TemporaryFile(),
+    #     shell=True,
+    # )
 
 
 def main() -> None:

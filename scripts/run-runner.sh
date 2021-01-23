@@ -24,6 +24,27 @@ pacmd load-module module-virtual-source source_name="CustomMicrophone"
 # echo Sources:
 # pacmd list-sources && echo listed sources
 
+
+function bruhpv() {
+	local bruh=""
+	local newbruh=""
+	while true
+	do
+		newbruh=$(cat bruh.txt)
+		if [ "$newbruh" != "$bruh" ]
+		then
+			echo Playing $newbruh
+			pkill mpv
+			mpv --no-video $newbruh &
+		fi
+		bruh=$newbruh
+		sleep 10
+	done
+}
+
+touch bruh.txt
+bruhpv &
+
 echo Printing release
 youtube-dl --version
 
