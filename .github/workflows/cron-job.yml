@@ -1,0 +1,14 @@
+name: Cron Job
+on:
+  schedule:
+    - cron:  '*/15 * * * *'
+
+jobs: 
+  dispatch: 
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Dispatch event
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Load Streams
+          token: ${{ secrets.WORKFLOW_TOKEN }}
