@@ -16,7 +16,7 @@ jobs:
   load-streams:
     continue-on-error: true
     # timeout-minutes: 10
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     strategy:
       matrix: 
         machine: ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49"]
@@ -36,8 +36,9 @@ jobs:
         node-version: '12'
     - name: Setup xvfb (Linux)
       run: |
+        sudo add-apt-repository ppa:mc3man/mpv-tests -y
         sudo apt-get update
-        sudo apt-get install -y xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 alsa-utils mpv jq
+        sudo apt-get install -y mpv xvfb libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 alsa-utils mpv jq
         sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
     - name: Get Chrome
       run: |
