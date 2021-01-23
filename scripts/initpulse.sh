@@ -3,8 +3,6 @@ test -f hasrun || {
     ulimit -n 10000
     touch hasrun
 
-    apt install pulseaudio
-
     addgroup $USER audio
     addgroup $3 audio
 
