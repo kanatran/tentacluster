@@ -63,7 +63,7 @@ jobs:
         export ACTUAL_PYTHON=$(which python3)
         echo $ACTUAL_PYTHON
         echo $(which python3)
-    - name: Clone baquap
+    - name: Clone baquap and install python libs
       run: |
         pushd ..
         git clone https://github.com/Botrans/baquap
@@ -73,6 +73,10 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.BOT_ACCESS_TOKEN }}@github.com/kanatran/baquap.git
         popd
         popd
+        mypy=$(which python3)
+        $mypy -m pip install -r requirements.txt
+        $mypy -m pip install uvicorn fastapi
+        $mypy scripts/setup_chrome.py
     - name: Cancel Previous Runs
       uses: styfle/cancel-workflow-action@0.7.0
       with:
@@ -85,7 +89,7 @@ jobs:
     - name: After running
       run: |
         echo Machine ${{ matrix.machine }} finished
-    - uses: actions/upload-artifact@v2
-      with:
-        name: output.wav
-        path: output.wav
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: output.wav
+    #     path: output.wav

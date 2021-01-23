@@ -21,12 +21,12 @@ pacmd unload-module module-suspend-on-idle
 
 # Used for debugging audio
 # pulseaudio --check -vvvv
-echo Soundcards:
-pacmd list soundcards
-echo Sinks:
-pacmd list-sinks
-echo Sources:
-pacmd list-sources && echo listed sources
+# echo Soundcards:
+# pacmd list soundcards
+# echo Sinks:
+# pacmd list-sinks
+# echo Sources:
+# pacmd list-sources && echo listed sources
 
 
 function bruhpv() {
@@ -63,9 +63,6 @@ echo CHANNEL_ID: $CHANNEL_ID
 if [ $CHANNEL_ID != "null" ]
 then
 	echo Using channel $CHANNEL_ID
-	$2 -m pip install -r requirements.txt
-	$2 -m pip install uvicorn fastapi
-	$2 scripts/setup_chrome.py
 	$2 -m uvicorn run_audio:app --app-dir=scripts --port=6969 &
 	$2 -m uvicorn server:app --app-dir=scripts --port=42069
 else
