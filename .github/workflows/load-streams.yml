@@ -51,9 +51,7 @@ jobs:
     - name: Update youtube-dl and mpv
       run: |
         sudo apt remove -y mpv
-        sudo add-apt-repository ppa:blinxwang/mpv-builds -y
-        sudo apt-get update
-        sudo apt-get install mpv
+        sudo apt-get install --only-upgrade mpv
         echo mpv version
         mpv --version
         sudo apt remove -y youtube-dl
