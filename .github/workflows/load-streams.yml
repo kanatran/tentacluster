@@ -4,7 +4,7 @@ name: Load Streams
 
 on:
   schedule:
-    - cron: "* 15 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
     # inputs:
     #   actionIndex:
@@ -15,7 +15,7 @@ on:
 jobs:
   load-streams:
     continue-on-error: true
-    timeout-minutes: 4269
+    timeout-minutes: 20
     runs-on: ubuntu-18.04
     strategy:
       matrix: 
