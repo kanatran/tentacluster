@@ -17,12 +17,13 @@ echo "Create a virtual audio source linked up to the virtual microphone output"
 pacmd load-module module-virtual-source source_name="CustomMicrophone"
 
 # Used for debugging audio
-# echo Soundcards:
-# pacmd list soundcards
-# echo Sinks:
-# pacmd list-sinks
-# echo Sources:
-# pacmd list-sources && echo listed sources
+pulseaudio --check -vvvv
+echo Soundcards:
+pacmd list soundcards
+echo Sinks:
+pacmd list-sinks
+echo Sources:
+pacmd list-sources && echo listed sources
 
 
 function bruhpv() {
