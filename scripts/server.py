@@ -10,6 +10,7 @@ from typing import Optional
 import translators as ts
 import aiohttp
 from autoselenium import chrome
+from workers import WebSpeechSlave
 from yt import YTLiveService
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -87,4 +88,5 @@ async def root():
 
 # print(translate("どこに向かわれてるんですかや屋号屋号どこどこに入ってるあの値段で家53って言いたいんだけどあの屋号から直々にさん付けやめてくださいみたいなあの呼び捨てにしてくださいって言うね昔言われたんで屋号と言ってます0口で開封配信とかしてほしいねもしかして自分が vtuber になるために作った組織なんでそんなどうしようも色々あのホロライブプロダクションの中にホロライブホロスターズサンスターで3とかあるんだけどちょっとどうしたんやね"))
 
-Thread(target=launch_selenium, daemon=True).start()
+# Thread(target=launch_selenium, daemon=True).start()
+WebSpeechSlave("http://localhost:42069").start()
