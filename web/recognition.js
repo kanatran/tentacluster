@@ -18,6 +18,7 @@ const messagehistory = new Array(10)
 let tlIndex = 0
 
 const translate = text => {
+  // eslint-disable-next-line no-unused-vars
   return new Promise((resolve, reject) => {
     const e = document.createElement('div')
     let i = (tlIndex + 1) % messagehistory.length
@@ -33,16 +34,19 @@ const translate = text => {
     const tlelement = document.createElement('span')
     tlelement.textContent = text
     e.appendChild(tlelement)
+    let observer = null
     const callback = () => {
       const content = tlelement.textContent.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"')
       messagehistory[tlIndex] = text
       tlIndex = (tlIndex + 1) % messagehistory.length
       e.remove()
+      observer.disconnect()
       resolve(content)
     }
-    document.body.appendChild(e)
-    new MutationObserver(callback).observe(tlelement,
+    observer = new MutationObserver(callback)
+    observer.observe(tlelement,
       { attributes: true, childList: true, characterData: true })
+    document.body.appendChild(e)
   })
 }
 
