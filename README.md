@@ -1,6 +1,8 @@
-# <img src="https://github.com/kanatran/tentacluster/blob/master/img/ina.png?raw=true" alt="Ina smiling" style="height: 3em; vertical-align: middle;" /> Tentacluster 
+# Tentacluster 
 
 AI-generated transcripts and translations of vtuber streams!
+
+<img src="https://github.com/kanatran/tentacluster/blob/master/img/ina.png?raw=true" alt="Ina smiling" />
 
 ## Before You Start
 We have made the entirety of Kanatran free, in the spirit of free and open source software. If you are integrating Kanatran's AI translations in your app or extension, please consider following these guidelines:
