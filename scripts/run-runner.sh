@@ -32,14 +32,18 @@ pacmd unload-module module-suspend-on-idle
 function bruhpv() {
 	local bruh=""
 	local newbruh=""
+	local mpvs=$(pgrep mpv)
 	while true
 	do
 		newbruh=$(cat bruh.txt)
-		if [ "$newbruh" != "$bruh" ]
+		if [ "$newbruh" = "None" ]
+		then
+			pkill mpv
+		elif [ "$mpvs" = "" -o "$newbruh" != "$bruh" ]
 		then
 			echo Playing $newbruh
 			pkill mpv
-			mpv --no-video $newbruh &> /dev/null
+			mpv --no-video $newbruh &> /dev/null &
 		fi
 		bruh=$newbruh
 		sleep 10
