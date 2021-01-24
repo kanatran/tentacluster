@@ -13,6 +13,10 @@ const fixMistakes = (text) => {
   return text
 }
 
+setInterval(() => {
+  window.scrollTo(0, document.body.scrollHeight)
+}, 100)
+
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
 const messagehistory = new Array(10)
 let tlIndex = 0
