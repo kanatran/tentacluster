@@ -34,7 +34,7 @@ def write_transcripts(
         index = 1
     else:
         with open(paths[2]) as f:
-            data = json.load(f.read())
+            data = json.load(f)
             index = data["index"] + 1
 
     texts = [
