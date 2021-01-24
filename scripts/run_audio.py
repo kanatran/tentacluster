@@ -28,6 +28,8 @@ def fprint(*args, **kwargs) -> None:
 
 
 def stop_audio():
+    with open(Path(__file__).parent / "../bruh.txt", "w+") as fout:
+        fout.write("None")
     for p in processes:
         p.terminate()
     processes[:] = []
@@ -56,7 +58,8 @@ def main() -> None:
         if ytl.live_link:
             play(ytl.live_link)
         else:
-            fprint("Vtuber not live", ytl.live_link)
+            fprint("Vtuber not live")
+            stop_audio()
         change.wait()
         change.clear()
 
