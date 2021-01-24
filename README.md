@@ -2,7 +2,11 @@
 
 AI-generated transcripts and translations of vtuber streams!
 
-<img src="https://github.com/kanatran/tentacluster/blob/master/img/ina.png?raw=true" alt="Ina smiling" />
+<p align="center">
+  <!--![Ina smiling](img/ina.png "Inacent repo here")-->
+  <!--Damn you markdown for not centering the image-->
+  <img src="https://github.com/kanatran/tentacluster/blob/master/img/ina.png?raw=true" alt="Ina smiling" />
+</p>
 
 ## Before You Start
 We have made the entirety of Kanatran free, in the spirit of free and open source software. If you are integrating Kanatran's AI translations in your app or extension, please consider following these guidelines:
