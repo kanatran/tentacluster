@@ -12,3 +12,8 @@ class TranscriptEvent(BaseModel):
 
 class ClientError(BaseModel):
     message: str
+
+
+class Timestamp(BaseModel):
+    duration: int
+    epoch: int
