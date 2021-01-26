@@ -41,6 +41,7 @@ class YTLiveService(Thread):
             old_link = self.live_link
             self.__update_live_link()
             if self.live_link != old_link:
+                self.__update_timestamps()
                 self.__publish_on_change()
             time.sleep(self.refresh_interval)
 
@@ -58,11 +59,13 @@ class YTLiveService(Thread):
                     "a", {"id": "video-title"}
                 )["href"]
                 self.live_link = f"{yt}{yt_endpoint}"
-                self.vid_time, self.curr_time = self.__get_timestamp(self.live_link)
             else:
                 self.live_link = None
         except AttributeError:
             self.live_link = None
+
+    def __update_timestamps(self):
+        self.vid_time, self.curr_time = self.__get_timestamp(self.live_link)
 
     def __get_timestamp(self, video_link: str) -> Tuple[int, int]:
         self._web.get(video_link)

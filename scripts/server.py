@@ -69,6 +69,13 @@ async def error(err: ClientError):
     return 200
 
 
+@app.post("/refresh")
+async def refresh():
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, web_speech.refresh)
+    return 200
+
+
 @app.post("/transcript")
 async def transcript_event(transcript: TranscriptEvent):
     print("Got transcript:", transcript.text)
@@ -89,4 +96,5 @@ async def root():
 # print(translate("どこに向かわれてるんですかや屋号屋号どこどこに入ってるあの値段で家53って言いたいんだけどあの屋号から直々にさん付けやめてくださいみたいなあの呼び捨てにしてくださいって言うね昔言われたんで屋号と言ってます0口で開封配信とかしてほしいねもしかして自分が vtuber になるために作った組織なんでそんなどうしようも色々あのホロライブプロダクションの中にホロライブホロスターズサンスターで3とかあるんだけどちょっとどうしたんやね"))
 
 # Thread(target=launch_selenium, daemon=True).start()
-WebSpeechSlave("http://localhost:42069").start()
+web_speech = WebSpeechSlave("http://localhost:42069")
+web_speech.start()

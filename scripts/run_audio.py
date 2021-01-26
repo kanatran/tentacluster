@@ -11,6 +11,7 @@ from threading import Event, Thread
 
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
+import requests
 
 from models import Timestamp
 from yt import YTLiveService
@@ -53,13 +54,11 @@ def play(link: str):
     fprint("Playing", link)
     with open(Path(__file__).parent / "../bruh.txt", "w+") as fout:
         fout.write(link)
-    # stop_audio()
-    # p = Popen(
-    #     ["mpv", "--no-video", link],
-    #     stdout=TemporaryFile(),
-    #     stderr=TemporaryFile(),
-    #     shell=True,
-    # )
+    Thread(target=notify_server, daemon=True).start()
+
+
+def notify_server() -> None:
+    requests.post("http://localhost:42069/refresh")
 
 
 def main() -> None:
