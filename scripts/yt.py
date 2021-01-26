@@ -1,6 +1,6 @@
 import time
 from threading import Event, Thread
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from autoselenium import chrome, firefox
 from bs4 import BeautifulSoup
@@ -56,10 +56,20 @@ class YTLiveService(Thread):
                     "a", {"id": "video-title"}
                 )["href"]
                 self.live_link = f"{yt}{yt_endpoint}"
+                self.vid_time, self.curr_time = self.__get_timestamp(self.live_link)
             else:
                 self.live_link = None
         except AttributeError:
             self.live_link = None
+
+    def __get_timestamp(self, video_link: str) -> Tuple[int, int]:
+        self._web.get(video_link)
+        time.sleep(10)
+        video_time, current_time = self._web.execute_script(
+            "return [document.querySelector('video').currentTime, new Date().getTime()]"
+        )
+        self._web.get(self._channel_link)
+        return video_time, current_time
 
     @staticmethod
     def __get_selenium() -> ChromeDriver:

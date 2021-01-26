@@ -10,12 +10,26 @@ from tempfile import TemporaryFile
 from threading import Event, Thread
 
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 
+from models import Timestamp
 from yt import YTLiveService
 
 processes = list()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/timestamp")
+async def timestamp():
+    return Timestamp(duration=ytl.vid_time, epoch=ytl.curr_time)
 
 
 @app.get("/link")
