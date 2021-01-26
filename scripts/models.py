@@ -15,5 +15,5 @@ class ClientError(BaseModel):
 
 
 class Timestamp(BaseModel):
-    duration: int
-    epoch: int
+    duration: Optional[int]
+    epoch: Optional[int]
