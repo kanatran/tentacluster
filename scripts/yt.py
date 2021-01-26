@@ -26,6 +26,8 @@ class YTLiveService(Thread):
         self._web: Optional[ChromeDriver] = None
         self._subscribers: List[Event] = []
         self.live_link: Optional[str] = None
+        self.vid_time: Optional[int] = None
+        self.curr_time: Optional[int] = None
         self.start()
 
     def listen(self) -> Event:
