@@ -91,8 +91,13 @@ recognition.onstart = () => {
   console.debug('Recognition started')
 }
 
-const begin = new Date().getTime()
+let begin = new Date().getTime()
 let lastSrt = srtTimestamp(0)
+fetch('http://localhost:6969/timestamp').then(d => d.json()).then(d => {
+  begin = d.epoch
+  lastSrt = srtTimestamp(d.duration * 1000)
+})
+
 
 const send = async (text, translation, actuallySend = true) => {
   const current = new Date().getTime()
