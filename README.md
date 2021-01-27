@@ -24,7 +24,7 @@ Each of the endpoints listed below are updated at a frequency of at most once ev
 
 ### Most Recent Transcript/Translation
 ```
-https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/last_tl.json
+https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/latest.json
 ```
 ```json
 {

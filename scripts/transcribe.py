@@ -27,7 +27,7 @@ def write_transcripts(
     paths = [
         f"{static}/../../baquap/transcript.srt",
         f"{static}/../../baquap/tl_transcript.srt",
-        f"{static}/../../baquap/last_tl.json",
+        f"{static}/../../baquap/latest.json",
     ]
 
     if not os.path.exists(paths[2]):
