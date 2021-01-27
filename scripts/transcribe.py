@@ -13,7 +13,8 @@ async def aio_write_transcripts(
 ):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(
-        None, lambda: write_transcripts(video, transcript, translation, srtTimes)
+        None,
+        lambda: write_transcripts(video, transcript, translation, srtTimes, timestamp),
     )
 
 
