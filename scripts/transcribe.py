@@ -28,6 +28,7 @@ def write_transcripts(
         f"{static}/../../baquap/transcript.srt",
         f"{static}/../../baquap/tl_transcript.srt",
         f"{static}/../../baquap/latest.json",
+        f"{static}/../../baquap/transcript.jsonl",
     ]
 
     if not os.path.exists(paths[2]):
@@ -36,6 +37,13 @@ def write_transcripts(
         with open(paths[2]) as f:
             data = json.load(f)
             index = data["index"] + 1
+
+    tl_data = {
+        "index": index,
+        "time": srtTimes,
+        "transcript": transcript,
+        "translation": translation,
+    }
 
     texts = [
         f"""{index}
@@ -49,12 +57,7 @@ def write_transcripts(
 
 """,
         json.dumps(
-            {
-                "index": index,
-                "time": srtTimes,
-                "transcript": transcript,
-                "translation": translation,
-            },
+            tl_data,
             sort_keys=True,
             indent=4,
             separators=(",", ": "),
@@ -70,5 +73,9 @@ def write_transcripts(
 
     with open(paths[2], "w+") as f:
         f.write(texts[2])
+
+    with open(paths[3], "a+") as f:
+        json.dump(tl_data, f, sort_keys=True, ensure_ascii=False)
+        print(file=f)
 
     subprocess.call(["sh", f"{static}/commit.sh", video])
