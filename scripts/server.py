@@ -29,6 +29,7 @@ session = aiohttp.ClientSession()
 
 translate = ts.bing
 link_url = "http://localhost:6969/link"
+bruh = Path(__file__).parent / "../bruh.txt"
 
 
 async def translate(jap: str) -> Optional[str]:
@@ -43,13 +44,26 @@ async def get_live_link():
     return await r.text()
 
 
+def parse_live_link(link: str) -> str:
+    return re.search(r"\?v\=(.+)", link).group(1)
+
+
 async def get_video_id() -> str:
     link = await get_live_link()
     try:
-        return re.search(r"\?v\=(.+)", link).group(1)
+        return parse_live_link(link)
     except Exception as e:
         print("Video ID Error:", e)
-        return "testVideoID"
+        try:
+            return get_video_bruh_fallback()
+        except Exception as ee:
+            print("Video ID Fallback Error:", ee)
+            return "testVideoID"
+
+
+def get_video_bruh_fallback() -> str:
+    with open(bruh, 'r') as fin:
+        return parse_live_link(fin.read())
 
 
 def launch_selenium() -> None:
