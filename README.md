@@ -38,22 +38,22 @@ https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/latest.json
 }
 ```
 
-### Full Translation Transcript
-#### JSON-Lines Format
+
+### Full Translation and Transcript Data
+#### JSONL Format
 ```
-https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/tl_transcript.jsonl
+https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/transcript.jsonl
 ```
-#### SRT Caption Format
+
+### Other Files
+#### Full Translation Transcript
+##### SRT Caption Format
 ```
 https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/tl_transcript.srt
 ```
 
-### Full Transcript
-#### JSON-Lines Format
-```
-https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/transcript.jsonl
-```
-#### SRT Caption Format
+#### Full Transcript
+##### SRT Caption Format
 ```
 https://raw.githubusercontent.com/kanatran/baquap/{VIDEO_ID}/transcript.srt
 ```
