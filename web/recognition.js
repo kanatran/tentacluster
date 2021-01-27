@@ -112,7 +112,7 @@ const send = async (text, translation, actuallySend = true) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        timestamp: Math.round(time / 1000),
+        timestamp: time / 1000,
         srtTime,
         text,
         translation
