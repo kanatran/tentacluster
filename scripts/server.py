@@ -97,7 +97,7 @@ async def transcript_event(transcript: TranscriptEvent):
     print("Browser translation:", transcript.translation)
     vid = await get_video_id()
     await aio_write_transcripts(
-        vid, transcript.text, transcript.translation, transcript.srtTime
+        vid, transcript.text, transcript.translation, transcript.srtTime, transcript.timestamp
     )
     return 200
 

@@ -9,7 +9,7 @@ static = Path(__file__).resolve().parent
 
 
 async def aio_write_transcripts(
-    video: str, transcript: str, translation: str, srtTimes: List[str]
+    video: str, transcript: str, translation: str, srtTimes: List[str], timestamp: float
 ):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(
@@ -18,7 +18,7 @@ async def aio_write_transcripts(
 
 
 def write_transcripts(
-    video: str, transcript: str, translation: str, srtTimes: List[str]
+    video: str, transcript: str, translation: str, srtTimes: List[str], timestamp: float
 ):
     subprocess.call(["sh", f"{static}/checkout.sh", video])
 
@@ -43,6 +43,7 @@ def write_transcripts(
         "time": srtTimes,
         "transcript": transcript,
         "translation": translation,
+        "timestamp": timestamp,
     }
 
     texts = [
